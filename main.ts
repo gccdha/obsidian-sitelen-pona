@@ -110,12 +110,47 @@ export default class SitelenPonaPlugin extends Plugin {
 				}
 			`;
 		} else {
-			latinToSitelenFontFace = `
-				.sitelen-pona-latin {
-					font-family: '${this.settings.latinToSitelenFont}', sans-serif;
-				}
-			`;
-		}
+      //if the setting is set, first check for font files in the assets folder, then check system
+      //fonts
+      const fontBase = `assets/${this.settings.latinToSitelenFont}`;
+      let fontPath = '';
+      let fontExists = false;
+
+      try {
+        //try to find otf files
+        let response = await fetch(`${fontBase}.otf`, { method: 'HEAD' });
+        if (response.ok) {
+          fontPath = `${fontBase}.otf`;
+          fontExists = true;
+        } else {
+          //try to fint ttf files
+          response = await fetch(`${fontBase}.ttf`, {method: 'HEAD' });
+          if (response.ok) {
+            fontPath `${fontBase}.ttf`;
+            fontExists = true;
+          }
+        }
+      } catch {
+        fontExists = false;
+      }
+
+      if (fontExists) {
+        latinToSitelenFont = `
+          @font-face {
+            font-family: '${this.settings.latinToSitelenFont}';
+            src: url('${fontPath}') format('${fontPath.endsWith('.otf') ? 'opentype' : 'truetype'}');
+          }
+          .sitelen-pona-latin {
+            font-family: '${this.settings.latinToSitelenFont}', sans-serif;
+          }
+        `;
+      } else {
+			  latinToSitelenFontFace = `
+				  .sitelen-pona-latin {
+					  font-family: '${this.settings.latinToSitelenFont}', sans-serif;
+				  }
+			  `;
+		  }
 
 		const fullStyleContent = `
 			${latinToSitelenFontFace}
