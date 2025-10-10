@@ -50,7 +50,7 @@ export default class SitelenPonaPlugin extends Plugin {
 									: "sitelen-pona-latin"
 							);
 							const lines = text.split("\n");
-							lines.forEach((line, index) => {
+							lines.forEach((line: string, index: number) => {
 								line = line.replace(/<br>/g, "");
 								if (index > 0) {
 									container.appendChild(
@@ -95,7 +95,7 @@ export default class SitelenPonaPlugin extends Plugin {
 			try {
 				const fontFace = new FontFace('linja-pona', `url(data:font/otf;base64,${base64Font})`);
 				const loadedFont = await fontFace.load();
-				document.fonts.add(loadedFont);
+				(document.fonts as any).add(loadedFont);
 			} catch (error) {
 				return;
 			}
@@ -126,7 +126,7 @@ export default class SitelenPonaPlugin extends Plugin {
           //try to fint ttf files
           response = await fetch(`${fontBase}.ttf`, {method: 'HEAD' });
           if (response.ok) {
-            fontPath `${fontBase}.ttf`;
+            fontPath = `${fontBase}.ttf`;
             fontExists = true;
           }
         }
@@ -135,7 +135,7 @@ export default class SitelenPonaPlugin extends Plugin {
       }
 
       if (fontExists) {
-        latinToSitelenFont = `
+        latinToSitelenFontFace = `
           @font-face {
             font-family: '${this.settings.latinToSitelenFont}';
             src: url('${fontPath}') format('${fontPath.endsWith('.otf') ? 'opentype' : 'truetype'}');
@@ -161,7 +161,9 @@ export default class SitelenPonaPlugin extends Plugin {
 
 		style.textContent = fullStyleContent;
 		document.head.appendChild(style);
-	}
+	  }
+  }
+
 
 	async loadSettings() {
 		this.settings = Object.assign(
