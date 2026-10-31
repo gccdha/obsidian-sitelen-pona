@@ -112,21 +112,22 @@ export default class SitelenPonaPlugin extends Plugin {
 		} else {
       //if the setting is set, first check for font files in the assets folder, then check system
       //fonts
+      //BUG: def something wrong with the try catch because it errors when there is no ttf file...
       const fontBase = `assets/${this.settings.latinToSitelenFont}`;
       let fontPath = '';
       let fontExists = false;
 
       try {
-        //try to find otf files
-        let response = await fetch(`${fontBase}.otf`, { method: 'HEAD' });
+        //try to find ttf files
+        let response = await fetch(`${fontBase}.ttf`, { method: 'HEAD' });
         if (response.ok) {
-          fontPath = `${fontBase}.otf`;
+          fontPath = `${fontBase}.ttf`;
           fontExists = true;
         } else {
-          //try to fint ttf files
-          response = await fetch(`${fontBase}.ttf`, {method: 'HEAD' });
+          //try to fint otf files
+          response = await fetch(`${fontBase}.otf`, {method: 'HEAD' });
           if (response.ok) {
-            fontPath = `${fontBase}.ttf`;
+            fontPath = `${fontBase}.otf`;
             fontExists = true;
           }
         }

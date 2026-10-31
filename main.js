@@ -12,7 +12,7 @@ var Y=Object.defineProperty;var n=Object.getOwnPropertyDescriptor;var c=Object.g
 				.sitelen-pona-latin {
 					font-family: 'linja-pona', sans-serif;
 				}
-			`}else{let Q=`assets/${this.settings.latinToSitelenFont}`,D="",P=!1;try{let I=await fetch(`${Q}.otf`,{method:"HEAD"});I.ok?(D=`${Q}.otf`,P=!0):(I=await fetch(`${Q}.ttf`,{method:"HEAD"}),I.ok&&(D=`${Q}.ttf`,P=!0))}catch{P=!1}P?w=`
+			`}else{let Q=`assets/${this.settings.latinToSitelenFont}`,D="",P=!1;try{let I=await fetch(`${Q}.ttf`,{method:"HEAD"});I.ok?(D=`${Q}.ttf`,P=!0):(I=await fetch(`${Q}.otf`,{method:"HEAD"}),I.ok&&(D=`${Q}.otf`,P=!0))}catch{P=!1}P?w=`
           @font-face {
             font-family: '${this.settings.latinToSitelenFont}';
             src: url('${D}') format('${D.endsWith(".otf")?"opentype":"truetype"}');
